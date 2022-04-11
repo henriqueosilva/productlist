@@ -1,5 +1,6 @@
 <?php
   header('Content-Type: application/json');
+  header('Access-Control-Allow-Origin: *');
 
   require './vendor/autoload.php';
 
@@ -28,6 +29,7 @@
     }
     try {
       $response = call_user_func_array(array(new $service, $method), $url);
+      http_response_code(200);
       echo json_encode(array('status' => 'success', 'data' => $response));
       exit;
     } catch (\Exception $e){

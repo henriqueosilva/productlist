@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Product from './Product'
+import { useNavigate } from 'react-router-dom'
 import { Row, Col, Container, Button, Card, Modal } from 'react-bootstrap'
 
 export default function ListProduct() {
@@ -8,10 +9,14 @@ export default function ListProduct() {
   const [show, setShow] = useState(false)
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
-
+  const navigate = useNavigate();
+  const navigateAddProduct = () => {
+    const path = 'addProducts';
+    navigate(path)
+  }
   const getProducts = () => {
     fetch('http://dummyjson.com/products')
-    .then(res => res.json())
+    .then(res => console.log(res))
     .then(q => setProducts(q.products))
   }
   const handleSelection = (data, selected) => {
@@ -33,7 +38,7 @@ export default function ListProduct() {
     <>
       <Container>
         <div className='d-flex justify-content-end py-3'>
-          <Button onClick={handleShow}>Add</Button>
+          <Button onClick={navigateAddProduct}>Add</Button>
           <Button id='delete-product-btn' className='ms-3' variant='danger' onClick={handleShow}>Mass Delete</Button>
         </div>
         <Row className='row-cols-4'>

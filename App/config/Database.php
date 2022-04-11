@@ -6,7 +6,7 @@
     private $host = '127.0.0.1';
     private $db_name = 'app_development';
     private $username = 'root';
-    private $password = '';
+    private $password = 'Uncisal@cedim';
     private $conn;
 
     public function connect() {
