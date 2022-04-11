@@ -44,7 +44,7 @@
       $db = $database->connect();
       $current_time = time();
 
-      $sql = 'INSERT INTO '.self::$table .'(sku_name, name, value, weight, dimensions, size, created_at, updated_at) VALUES (:sku, :name, :value, :weight, :dimensions, :size, :created_at, updated_at)';
+      $sql = 'INSERT INTO '.self::$table .'(sku, name, value, weight, dimensions, size, created_at, updated_at) VALUES (:sku, :name, :value, :weight, :dimensions, :size, :created_at, updated_at)';
       $stmt = $db->prepare($sql);
       
       $stmt->bindValue(':sku', $product->getSku());
