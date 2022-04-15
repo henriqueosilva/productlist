@@ -11,12 +11,12 @@ export default function ListProduct() {
   const handleClose = () => setShow(false);
   const navigate = useNavigate();
   const navigateAddProduct = () => {
-    const path = 'addProducts';
+    const path = 'addproduct';
     navigate(path)
   }
   const getProducts = () => {
     fetch('http://dummyjson.com/products')
-    .then(res => console.log(res))
+    .then(res => res.json())
     .then(q => setProducts(q.products))
   }
   const handleSelection = (data, selected) => {

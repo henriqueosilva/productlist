@@ -1,7 +1,7 @@
 <?php
   header('Content-Type: application/json');
   header('Access-Control-Allow-Origin: *');
-
+  date_default_timezone_set('America/Bahia');
   require './vendor/autoload.php';
 
   if(array_key_exists('url', $_GET)) {

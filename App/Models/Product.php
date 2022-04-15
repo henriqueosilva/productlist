@@ -42,11 +42,10 @@
     public static function insert($product) {
       $database = new Database;
       $db = $database->connect();
-      $current_time = time();
+      $current_time = date('Y-m-d H:i:s');
 
-      $sql = 'INSERT INTO '.self::$table .'(sku, name, value, weight, dimensions, size, created_at, updated_at) VALUES (:sku, :name, :value, :weight, :dimensions, :size, :created_at, updated_at)';
+      $sql = 'INSERT INTO '.self::$table .'(sku, name, value, weight, dimensions, size, created_at, updated_at) VALUES (:sku, :name, :value, :weight, :dimensions, :size, :created_at, :updated_at)';
       $stmt = $db->prepare($sql);
-      
       $stmt->bindValue(':sku', $product->getSku());
       $stmt->bindValue(':name', $product->getName());
       $stmt->bindValue(':value', $product->getValue());
@@ -70,7 +69,7 @@
         $stmt->bindValue(':weight', null);
         $stmt->bindValue(':dimensions', null);
       }
-
+      echo(var_dump($stmt));
       $stmt->execute();
 
       if ($stmt->rowCount() > 0) {

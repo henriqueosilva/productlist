@@ -1,6 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { Alert, Button, Container, FloatingLabel, Form } from 'react-bootstrap'
-import FormProduct from './FormProduct';
+import React, { Suspense, useEffect, useRef, useState } from 'react'
+import { Alert, Button, Container, Form } from 'react-bootstrap'
+
+import ProductForm from './Forms/ProductForm';
 
 export default function AddProduct() {
   const skuRef = useRef('');
@@ -13,47 +14,62 @@ export default function AddProduct() {
   const lengthRef = useRef('');
   const [typeList, setTypeList] = useState([]);
   const [type, setType] = useState('');
-  const [open, setOpen] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const product = useRef({
-    sku: skuRef,
-    name: nameRef,
-    price: priceRef,
-    weight: weightRef,
-    size: sizeRef,
-    height: heightRef,
-    width: widthRef,
-    length: lengthRef,
-  })
+  const BookForm = React.lazy(() => import('./Forms/BookForm'))
+  const DvdForm = React.lazy(() => import('./Forms/DvdForm'));
+  const FurnitureForm = React.lazy(() => import('./Forms/FurnitureForm'));
 
+  const content = async () => {
+    const rawResponse = await fetch('http://127.0.0.1:8080/api/product',{
+    method:'POST',
+    body: JSON.stringify({sku:skuRef.current.value,
+      name:nameRef.current.value,
+      value:priceRef.current.value,
+      weight:weightRef.current.value,
+      size:sizeRef.current.value,
+      height:heightRef.current.value,
+      width:widthRef.current.value,
+      length:lengthRef.current.value,
+      type:type})
+    });
+    const content = await rawResponse.json();
+    console.log(content)
+    return content
+    
+  }
   const handleSubmit = (e) => {
     e.preventDefault()
     try {
+      content()
       setError('');
       setLoading(true)
-      console.log(product)
-
     } catch {
       setError("Error on product add");
     }
+    setLoading(false)
   }
   const handleChange = (e) => {
     setType(e.target.value)
-    setOpen(true)
   }
   const getTypes = () => {
     console.log("During Fetch")
-    fetch('http://127.0.1.1/api/type')
+    fetch('http://127.0.0.1:8080/api/type')
     .then(res => res.json())
     .then(q => setTypeList(q.data))
   }
   useEffect(() => {
     if (typeList.length === 0) getTypes();
-  }, [typeList.length])
+    console.log('during effect')
+    weightRef.current = '';
+    sizeRef.current = '';
+    heightRef.current = '';
+    widthRef.current = '';
+    lengthRef.current = '';
+  }, [typeList.length, handleChange])
   return (
     <>
-      <Container className='mt-3'>
+    <Container className='mt-3'>
         {error && <Alert variant='danger'>{error}</Alert>}
         <div className='d-flex'>
           <h2 style={{minWidth:'115vh'}}>Product Add</h2>
@@ -66,32 +82,23 @@ export default function AddProduct() {
         <div className='d-flex'>
           <Form style={{width:'350px'}} onSubmit={handleSubmit}>
             <Form.Group>
-              <FloatingLabel controlId='sku' label='SKU'>
-                <Form.Control type='text' placeholder='SKU' ref={skuRef} required/>
-              </FloatingLabel>
-              <FloatingLabel controlId='name' label='Name'>
-                <Form.Control type='text' placeholder='Price' ref={nameRef} required/>
-              </FloatingLabel>
-              <FloatingLabel controlId='price' label='Price $'>
-                <Form.Control type='text' placeholder='Price' ref={priceRef} required/>
-              </FloatingLabel>
-              <FloatingLabel label='Product Type'>
-                <Form.Select id='productType' onChange={handleChange}>
-                  <option></option>
-                  {typeList.map((type, index) => (
-                    <option key={index} value={type.type}>{type.type}</option>
-                    ))}
-                </Form.Select>
-              </FloatingLabel>
-              <p className='text-center mt-3'>The selected Type is {type}</p>
-              <FormProduct type={type} open={open} product={product}/>
+              <ProductForm handleChange={handleChange}
+              typeList={typeList}
+              type={type}
+              ref={{skuRef:skuRef, nameRef:nameRef, priceRef:priceRef}}/>
             </Form.Group>
+            <Suspense fallback={<div>Loading...</div>}>
+              {type === 'Book' ? <BookForm ref={weightRef}/> : ""}
+              {type === 'Dvd' ? <DvdForm ref={sizeRef}/> : ""}
+              {type === 'Furniture' ? <FurnitureForm ref={{heightRef:heightRef, widthRef:widthRef, lengthRef:lengthRef}}/> : ""}
+            </Suspense>
             <Button disabled={loading} className='w-100 mt-5' variant='success' type='submit'>Add Product</Button>
           </Form>
         </div>
       </Container>
     </>
+
+
   )
 }
-
 
