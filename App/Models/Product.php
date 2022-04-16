@@ -44,7 +44,7 @@
       $db = $database->connect();
       $current_time = date('Y-m-d H:i:s');
 
-      $sql = 'INSERT INTO '.self::$table .'(sku, name, value, weight, dimensions, size, created_at, updated_at) VALUES (:sku, :name, :value, :weight, :dimensions, :size, :created_at, :updated_at)';
+      $sql = 'INSERT INTO '.self::$table .'(sku, name, value, weight, height, width, length, size, created_at, updated_at) VALUES (:sku, :name, :value, :weight, :height, :width, :length, :size, :created_at, :updated_at)';
       $stmt = $db->prepare($sql);
       $stmt->bindValue(':sku', $product->getSku());
       $stmt->bindValue(':name', $product->getName());
@@ -54,12 +54,17 @@
       
       if(method_exists($product, 'getWeight')){
         $stmt->bindValue(':weight', $product->getWeight());
-        $stmt->bindValue(':dimensions', null);
+        $stmt->bindValue(':height', null);
+        $stmt->bindValue(':width', null);
+        $stmt->bindValue(':length', null);
         $stmt->bindValue(':size', null);
       }
 
       if(method_exists($product, 'getDimensions')){
-        $stmt->bindValue(':dimensions', $product->getDimensions());
+        $dimensions = $product->getDimensions();
+        $stmt->bindValue(':height', $dimensions['height']);
+        $stmt->bindValue(':width', $dimensions['width']);
+        $stmt->bindValue(':length', $dimensions['length']);
         $stmt->bindValue(':weight', null);
         $stmt->bindValue(':size', null);
       }
@@ -67,9 +72,10 @@
       if(method_exists($product, 'getSize')){
         $stmt->bindValue(':size', $product->getSize());
         $stmt->bindValue(':weight', null);
-        $stmt->bindValue(':dimensions', null);
+        $stmt->bindValue(':height', null);
+        $stmt->bindValue(':width', null);
+        $stmt->bindValue(':length', null);
       }
-      echo(var_dump($stmt));
       $stmt->execute();
 
       if ($stmt->rowCount() > 0) {

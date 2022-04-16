@@ -1,5 +1,6 @@
 import React, { Suspense, useEffect, useRef, useState } from 'react'
 import { Alert, Button, Container, Form } from 'react-bootstrap'
+import { useNavigate } from 'react-router-dom'
 
 import ProductForm from './Forms/ProductForm';
 
@@ -16,6 +17,7 @@ export default function AddProduct() {
   const [type, setType] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const BookForm = React.lazy(() => import('./Forms/BookForm'))
   const DvdForm = React.lazy(() => import('./Forms/DvdForm'));
   const FurnitureForm = React.lazy(() => import('./Forms/FurnitureForm'));
@@ -52,6 +54,9 @@ export default function AddProduct() {
   const handleChange = (e) => {
     setType(e.target.value)
   }
+  const handleNavigate = () => {
+    navigate("/")
+  }
   const getTypes = () => {
     console.log("During Fetch")
     fetch('http://127.0.0.1:8080/api/type')
@@ -74,8 +79,8 @@ export default function AddProduct() {
         <div className='d-flex'>
           <h2 style={{minWidth:'115vh'}}>Product Add</h2>
           <div className='justify-content-end'>
-            <Button>Save</Button>
-            <Button className='ms-3'>Cancel</Button>
+            <Button disabled={loading} variant='success' type='submit'>Save</Button>
+            <Button className='ms-3' onClick={handleNavigate}>Cancel</Button>
           </div>
         </div>
         <hr />
@@ -89,10 +94,9 @@ export default function AddProduct() {
             </Form.Group>
             <Suspense fallback={<div>Loading...</div>}>
               {type === 'Book' ? <BookForm ref={weightRef}/> : ""}
-              {type === 'Dvd' ? <DvdForm ref={sizeRef}/> : ""}
+              {type === 'DVD' ? <DvdForm ref={sizeRef}/> : ""}
               {type === 'Furniture' ? <FurnitureForm ref={{heightRef:heightRef, widthRef:widthRef, lengthRef:lengthRef}}/> : ""}
             </Suspense>
-            <Button disabled={loading} className='w-100 mt-5' variant='success' type='submit'>Add Product</Button>
           </Form>
         </div>
       </Container>

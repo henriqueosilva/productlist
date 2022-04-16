@@ -4,15 +4,31 @@
   use App\Classes\ProductClass;
 
   class FurnitureClass extends ProductClass {
-    private string $dimensions;
+    private float $height;
+    private float $width;
+    private float $length;
 
     public function getDimensions() {
-      return $this->dimensions;
-    }
-    public function setDimensions(string $dimensions) {
-      $this->dimensions = $dimensions;
+      $dimensions = array("height"=>$this->height,
+      "width"=>$this->width,
+      "length"=>$this->length);
 
-      return $this->dimensions;
+      return $dimensions;
+    }
+    public function setHeight(float $height) {
+      $this->height = $height;
+
+      return $this->height;
+    }
+    public function setWidth(float $width) {
+      $this->width = $width;
+
+      return $this->width;
+    }
+    public function setLength(float $length) {
+      $this->length = $length;
+
+      return $this->length;
     }
   }
 ?>

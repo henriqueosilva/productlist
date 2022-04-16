@@ -36,7 +36,9 @@
         $product->setSize($data['size']);
       }
       if ($data['type'] === 'Furniture'){
-        $product->setDimensions($data['dimensions']);
+        $product->setHeight($data['height']);
+        $product->setWidth($data['width']);
+        $product->setLength($data['length']);
       }
       //var_dump($product->getSize());
       return Product::insert($product);

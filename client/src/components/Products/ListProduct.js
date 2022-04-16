@@ -15,9 +15,9 @@ export default function ListProduct() {
     navigate(path)
   }
   const getProducts = () => {
-    fetch('http://dummyjson.com/products')
+    fetch('http://127.0.0.1:8080/api/product')
     .then(res => res.json())
-    .then(q => setProducts(q.products))
+    .then(q => setProducts(q.data))
   }
   const handleSelection = (data, selected) => {
     if (selected === true){
@@ -34,6 +34,7 @@ export default function ListProduct() {
     if (products.length === 0) getProducts();
     document.title = "Product List"
   },[products.length])
+  console.log(products)
   return (
     <>
       <Container>

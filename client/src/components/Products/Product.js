@@ -10,14 +10,20 @@ export default function Product(props) {
     //console.log(props)
     props.handleSelection(props.product, !selected)
   }
+  const handleRender = () => {
+    for(var obj in props.product){
+      if(obj != null) return <Card.Text>{obj}</Card.Text>
+    }
+  }
   return (
     <>
       <Card.Body>
         <Form.Check.Input className='delete-checkbox' type={'checkbox'} checked={selected} onChange={handleChange} />
         <div className='text-center'>
-          <Card.Title>{props.product.title}</Card.Title>
-          <Card.Text>{props.product.description}</Card.Text>
-          <Card.Text className='text-center'>${props.product.price}</Card.Text>
+          <Card.Title>{props.product.sku}</Card.Title>
+          <Card.Text>{props.product.name}</Card.Text>
+          <Card.Text className='text-center'>$ {props.product.value}</Card.Text>
+          {handleRender()}
         </div>
       </Card.Body>
     </>
