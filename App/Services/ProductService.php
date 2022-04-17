@@ -30,7 +30,6 @@
       }
       $product = new $classname($data['sku'], $data['name'], $data['value']);
       if ($data['type'] === 'Book'){
-        echo(var_dump($data));
         $product->setWeight($data['weight']);
       }
       if ($data['type'] === 'DVD'){
@@ -67,6 +66,7 @@
         }
         Product::delete($product);
       }
+      return "products deleted";
     }
   }
 ?>
