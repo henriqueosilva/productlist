@@ -28,13 +28,16 @@ export default function ListProduct() {
     }
   }
   const handleDelete = () => {
-    console.log("Confirmed deletion")
+    fetch('http://127.0.0.1:8080/api/product', {
+      method:'DELETE',
+      body: JSON.stringify(selectedList)
+    })
+    console.log(selectedList)
   }
   useEffect(()=>{
     if (products.length === 0) getProducts();
     document.title = "Product List"
   },[products.length])
-  console.log(products)
   return (
     <>
       <Container>
@@ -42,9 +45,9 @@ export default function ListProduct() {
           <Button onClick={navigateAddProduct}>Add</Button>
           <Button id='delete-product-btn' className='ms-3' variant='danger' onClick={handleShow}>Mass Delete</Button>
         </div>
-        <Row className='row-cols-4'>
+        <Row className='row-cols-3'>
           {products.map((product, index)=>(
-            <Col className='mb-3' style={{}} key={index}>
+            <Col className='mb-3' key={index}>
               <Card className='h-100 d-inline-block'>
                 <Product product={product} handleSelection={handleSelection}/>
               </Card>
@@ -62,7 +65,7 @@ export default function ListProduct() {
           <Button variant="secondary" onClick={handleClose}>
             Cancel
           </Button>
-          <Button variant="primary" onClick={() => {handleClose() && handleDelete()}}>
+          <Button variant="primary" onClick={() => {handleDelete(); handleClose()}}>
             Delete
           </Button>
         </Modal.Footer>

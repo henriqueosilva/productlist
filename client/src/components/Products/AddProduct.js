@@ -35,6 +35,7 @@ export default function AddProduct() {
       length:lengthRef.current.value,
       type:type})
     });
+    console.log(weightRef.current.value);
     const content = await rawResponse.json();
     console.log(content)
     return content
@@ -79,7 +80,7 @@ export default function AddProduct() {
         <div className='d-flex'>
           <h2 style={{minWidth:'115vh'}}>Product Add</h2>
           <div className='justify-content-end'>
-            <Button disabled={loading} variant='success' type='submit'>Save</Button>
+            <Button disabled={loading} variant='success' type='submit' onClick={handleSubmit}>Save</Button>
             <Button className='ms-3' onClick={handleNavigate}>Cancel</Button>
           </div>
         </div>
@@ -93,8 +94,8 @@ export default function AddProduct() {
               ref={{skuRef:skuRef, nameRef:nameRef, priceRef:priceRef}}/>
             </Form.Group>
             <Suspense fallback={<div>Loading...</div>}>
-              {type === 'Book' ? <BookForm ref={weightRef}/> : ""}
-              {type === 'DVD' ? <DvdForm ref={sizeRef}/> : ""}
+              {type === 'Book' ? <BookForm ref={{weightRef:weightRef}}/> : ""}
+              {type === 'DVD' ? <DvdForm ref={{sizeRef:sizeRef}}/> : ""}
               {type === 'Furniture' ? <FurnitureForm ref={{heightRef:heightRef, widthRef:widthRef, lengthRef:lengthRef}}/> : ""}
             </Suspense>
           </Form>

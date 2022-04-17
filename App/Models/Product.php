@@ -84,5 +84,19 @@
         throw new \Exception("Failed to insert the product!");
       }
     }
+    public static function delete($product){
+      $database = new Database;
+      $db = $database->connect();
+      $sql = 'DELETE FROM '.self::$table .' WHERE sku=:sku';
+      $stmt = $db->prepare($sql);
+      $stmt->bindValue(':sku', $product->getSku());
+      $stmt->execute();
+
+      if ($stmt->rowCount() > 0){
+        return 'Product successfuly deleted';
+      } else {
+        throw new \Exception("Failed to delete the product");
+      }
+    }
   }
 ?>

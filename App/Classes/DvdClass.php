@@ -3,7 +3,7 @@
 
   use App\Classes\ProductClass;
 
-  class DvdClass extends ProductClass {
+  class DVDClass extends ProductClass {
     private int $size;
 
     public function getSize() {

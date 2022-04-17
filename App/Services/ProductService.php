@@ -30,9 +30,10 @@
       }
       $product = new $classname($data['sku'], $data['name'], $data['value']);
       if ($data['type'] === 'Book'){
+        echo(var_dump($data));
         $product->setWeight($data['weight']);
       }
-      if ($data['type'] === 'Dvd'){
+      if ($data['type'] === 'DVD'){
         $product->setSize($data['size']);
       }
       if ($data['type'] === 'Furniture'){
@@ -43,6 +44,29 @@
       //var_dump($product->getSize());
       return Product::insert($product);
       exit;
+    }
+    public function delete(){
+      $data = json_decode(file_get_contents('php://input'), true);
+      foreach($data as $key => $value) {
+        if($value['weight'] != null){
+          $classname = 'App\Classes\BookClass';
+          $product = new $classname($value['sku'], $value['name'], $value['value']);
+          $product->setWeight($value['weight']);
+        }
+        if($value['size'] != null){
+          $classname = 'App\Classes\DVDClass';
+          $product = new $classname($value['sku'], $value['name'], $value['value']);
+          $product->setSize($value['size']);
+        }
+        if($value['height'] != null){
+          $classname = 'App\Classes\FurnitureClass';
+          $product = new $classname($value['sku'], $value['name'], $value['value']);
+          $product->setHeight($value['height']);
+          $product->setWidth($value['width']);
+          $product->setLength($value['length']);
+        }
+        Product::delete($product);
+      }
     }
   }
 ?>
