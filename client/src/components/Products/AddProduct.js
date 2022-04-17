@@ -1,6 +1,6 @@
 import React, { Suspense, useEffect, useRef, useState } from 'react'
-import { Alert, Button, Container, Form } from 'react-bootstrap'
-import { useNavigate } from 'react-router-dom'
+import { Alert, Button, Form } from 'react-bootstrap'
+import { useNavigate, useOutletContext } from 'react-router-dom'
 
 import ProductForm from './Forms/ProductForm';
 
@@ -14,6 +14,9 @@ export default function AddProduct() {
   const widthRef = useRef('');
   const lengthRef = useRef('');
   const [typeList, setTypeList] = useState([]);
+  const [validated, setValidated] = useState(false);
+  const [showToast, setShowToast] = useOutletContext();
+  const toggleShowToast = () => setShowToast(!showToast);
   const [type, setType] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -23,7 +26,7 @@ export default function AddProduct() {
   const FurnitureForm = React.lazy(() => import('./Forms/FurnitureForm'));
 
   const content = async () => {
-    const rawResponse = await fetch('http://127.0.0.1:8080/api/product',{
+    const rawResponse = await fetch('https://juniortest-henrique-silva.000webhostapp.com/api/product',{
     method:'POST',
     body: JSON.stringify({sku:skuRef.current.value,
       name:nameRef.current.value,
@@ -35,20 +38,32 @@ export default function AddProduct() {
       length:lengthRef.current.value,
       type:type})
     });
-    console.log(weightRef.current.value);
-    const content = await rawResponse.json();
-    console.log(content)
+    const content = await rawResponse;
     return content
     
   }
   const handleSubmit = (e) => {
-    e.preventDefault()
+    const form = e.currentTarget;
+    if(form.checkValidity() === false){
+      e.preventDefault();
+      e.stopPropagation()
+    }
+    e.preventDefault();
+    setValidated(true)
+    setLoading(true)
     try {
-      content()
-      setError('');
-      setLoading(true)
+      content().then(res => res.json())
+      .then(q => {
+        if(q.status !== 'success') {
+          setError(q.data);
+        }
+        if(q.status === 'success') {
+          navigate('/')
+          toggleShowToast()
+        }
+      })
     } catch {
-      setError("Error on product add");
+      setError("Error communicating with api");
     }
     setLoading(false)
   }
@@ -59,14 +74,12 @@ export default function AddProduct() {
     navigate("/")
   }
   const getTypes = () => {
-    console.log("During Fetch")
-    fetch('http://127.0.0.1:8080/api/type')
+    fetch('https://juniortest-henrique-silva.000webhostapp.com/api/type')
     .then(res => res.json())
     .then(q => setTypeList(q.data))
   }
   useEffect(() => {
     if (typeList.length === 0) getTypes();
-    console.log('during effect')
     weightRef.current = '';
     sizeRef.current = '';
     heightRef.current = '';
@@ -75,18 +88,17 @@ export default function AddProduct() {
   }, [typeList.length, handleChange])
   return (
     <>
-    <Container className='mt-3'>
         {error && <Alert variant='danger'>{error}</Alert>}
         <div className='d-flex'>
-          <h2 style={{minWidth:'115vh'}}>Product Add</h2>
+          <h2 style={{minWidth:'900px'}}>Product Add</h2>
           <div className='justify-content-end'>
-            <Button disabled={loading} variant='success' type='submit' onClick={handleSubmit}>Save</Button>
+            <Button disabled={loading} variant='success' form='add-product' type='submit'>Save</Button>
             <Button className='ms-3' onClick={handleNavigate}>Cancel</Button>
           </div>
         </div>
         <hr />
         <div className='d-flex'>
-          <Form style={{width:'350px'}} onSubmit={handleSubmit}>
+          <Form id="add-product" style={{width:'350px'}} onSubmit={handleSubmit} noValidate validated={validated}>
             <Form.Group>
               <ProductForm handleChange={handleChange}
               typeList={typeList}
@@ -100,7 +112,6 @@ export default function AddProduct() {
             </Suspense>
           </Form>
         </div>
-      </Container>
     </>
 
 
