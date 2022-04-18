@@ -35,7 +35,7 @@ export default function ListProduct() {
     setError('')
     setLoading(true);
     try {
-      fetch('https://juniortest-henrique-silva.000webhostapp.com/api/product', {
+      fetch('http://juniortest-henrique-silva.000webhostapp.com/api/product', {
         method:'DELETE',
         body: JSON.stringify(selectedList)
       }).then(res => res.json())
