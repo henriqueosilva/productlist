@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Form, InputGroup } from 'react-bootstrap'
 
 const DvdForm = React.forwardRef((props, ref) => {
   const {sizeRef} = ref
   const filterNumbersOnly = (e) => {
-    e.target.value = e.target.value.replace(/[^.0-9]/g, '')
+    e.target.value = e.target.value.replace(/[^0-9]/g, '')
   }
   const filterLength = (e, maxLength=12) => {
     if(e.target.value.length >= maxLength ){
@@ -12,6 +12,9 @@ const DvdForm = React.forwardRef((props, ref) => {
       console.log(e.target.value.length)
     }
   }
+  useEffect(()=>{
+    if (sizeRef.current?.value) sizeRef.current.value = '';
+  }, [sizeRef])
   return (
     <>
     <Form.Label htmlFor='' visuallyHidden>Size</Form.Label>

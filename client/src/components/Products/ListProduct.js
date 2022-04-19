@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Product from './Product'
 import { useNavigate } from 'react-router-dom'
-import { Row, Col, Button, Card, Modal } from 'react-bootstrap'
+import { Row, Col, Button, Card, Modal, Alert } from 'react-bootstrap'
 
 export default function ListProduct() {
   const [products, setProducts] = useState([]);
@@ -35,9 +35,10 @@ export default function ListProduct() {
     setError('')
     setLoading(true);
     try {
-      fetch('http://juniortest-henrique-silva.000webhostapp.com/api/product', {
-        method:'DELETE',
-        body: JSON.stringify(selectedList)
+      fetch('https://juniortest-henrique-silva.000webhostapp.com/api/product', {
+        method:'POST',
+        //body:JSON.stringify(selectedList)
+        body: JSON.stringify({method:'delete', products:selectedList})
       }).then(res => res.json())
       .then(q => {
         if(q.data !== 'success'){
@@ -56,6 +57,7 @@ export default function ListProduct() {
   },[products.length])
   return (
     <>
+    {error && <Alert variant='danger'>{error}</Alert>}
       <div className='d-flex'>
       <h2 style={{minWidth:'900px'}}>Product List</h2>
         <div className='justify-content-end'>

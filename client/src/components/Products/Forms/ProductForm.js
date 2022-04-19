@@ -1,10 +1,22 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { FloatingLabel, Form } from 'react-bootstrap';
 
 const ProductForm = React.forwardRef((props, ref) => {
   const { skuRef, nameRef, priceRef } = ref;
-  const filterNumbersOnly = (e) => {
-    e.target.value = e.target.value.replace(/[^.0-9]/g, '')
+  const [value,setValue] = useState('');
+  const handleInput = (e, maxLength=12) => {
+    if(e.target.value.length >= maxLength ) e.target.value = e.target.value.substr(0, maxLength);
+    const formatedDecimal = formatDecimal(e.target.value)
+    setValue(formatedDecimal);
+  }
+  function formatDecimal(number) {
+    if(!number) return number;
+    const formatedCurrency = number.replace(/[^\d]/g, '')
+    if(formatedCurrency.length <= 2) return formatedCurrency;
+    const decimal = formatedCurrency.slice(formatedCurrency.length-2)
+    const integer = formatedCurrency.slice(0,formatedCurrency.length-2)
+
+    return `${integer}.${decimal}`;
   }
   const filterLength = (e, maxLength=12) => {
     if(e.target.value.length >= maxLength ){
@@ -25,7 +37,7 @@ const ProductForm = React.forwardRef((props, ref) => {
         <Form.Control.Feedback type='invalid'>Please insert a Name</Form.Control.Feedback>
       </FloatingLabel>
       <FloatingLabel controlId='price' label='Price $'>
-        <Form.Control type='text' placeholder='Price' ref={priceRef} onChange={(e) => {filterNumbersOnly(e); filterLength(e, 32)}} required/>
+        <Form.Control type='text' placeholder='Price' ref={priceRef} onChange={(e) => handleInput(e,15)} value={value} required/>
         <Form.Control.Feedback type='valid'>Looks good!</Form.Control.Feedback>
         <Form.Control.Feedback type='invalid'>Please insert a Price</Form.Control.Feedback>
       </FloatingLabel>

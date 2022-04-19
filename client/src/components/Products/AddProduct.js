@@ -26,16 +26,18 @@ export default function AddProduct() {
   const FurnitureForm = React.lazy(() => import('./Forms/FurnitureForm'));
 
   const content = async () => {
-    const rawResponse = await fetch('https://juniortest-henrique-silva.000webhostapp.com/api/product',{
+    const rawResponse = await fetch('http://127.0.0.1:8080/api/product',{
     method:'POST',
-    body: JSON.stringify({sku:skuRef.current.value,
+    body: JSON.stringify({
+      method:'register',
+      sku:skuRef.current.value,
       name:nameRef.current.value,
       value:priceRef.current.value,
-      weight:weightRef.current.value,
-      size:sizeRef.current.value,
-      height:heightRef.current.value,
-      width:widthRef.current.value,
-      length:lengthRef.current.value,
+      weight:weightRef.current?.value,
+      size:sizeRef.current?.value,
+      height:heightRef.current?.value,
+      width:widthRef.current?.value,
+      length:lengthRef.current?.value,
       type:type})
     });
     const content = await rawResponse;
@@ -80,11 +82,6 @@ export default function AddProduct() {
   }
   useEffect(() => {
     if (typeList.length === 0) getTypes();
-    weightRef.current = '';
-    sizeRef.current = '';
-    heightRef.current = '';
-    widthRef.current = '';
-    lengthRef.current = '';
   }, [typeList.length, handleChange])
   return (
     <>
