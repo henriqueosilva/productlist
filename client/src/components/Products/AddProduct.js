@@ -26,7 +26,7 @@ export default function AddProduct() {
   const FurnitureForm = React.lazy(() => import('./Forms/FurnitureForm'));
 
   const content = async () => {
-    const rawResponse = await fetch('http://127.0.0.1:8080/api/product',{
+    const rawResponse = await fetch('https://juniortest-henrique-silva.000webhostapp.com/api/product',{
     method:'POST',
     body: JSON.stringify({
       method:'register',
