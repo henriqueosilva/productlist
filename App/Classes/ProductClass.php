@@ -27,7 +27,7 @@
 
       return $this->name;
     }
-    public function setValue(string $value) {
+    public function setValue(float $value) {
       $this->value = $value;
 
       return $this->value;
