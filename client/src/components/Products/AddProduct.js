@@ -1,6 +1,6 @@
 import React, { Suspense, useEffect, useRef, useState } from 'react'
-import { Alert, Button, Form } from 'react-bootstrap'
-import { useNavigate, useOutletContext } from 'react-router-dom'
+import { Alert, Button, Container, Form } from 'react-bootstrap'
+import { useNavigate } from 'react-router-dom'
 
 import ProductForm from './Forms/ProductForm';
 
@@ -15,8 +15,8 @@ export default function AddProduct() {
   const lengthRef = useRef('');
   const [typeList, setTypeList] = useState([]);
   const [validated, setValidated] = useState(false);
-  const [showToast, setShowToast] = useOutletContext();
-  const toggleShowToast = () => setShowToast(!showToast);
+  // const [showToast, setShowToast] = useOutletContext();
+  //const toggleShowToast = () => setShowToast(!showToast);
   const [type, setType] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -45,6 +45,7 @@ export default function AddProduct() {
     
   }
   const handleSubmit = (e) => {
+    console.log('submited')
     const form = e.currentTarget;
     if(form.checkValidity() === false){
       e.preventDefault();
@@ -61,7 +62,7 @@ export default function AddProduct() {
         }
         if(q.status === 'success') {
           navigate('/')
-          toggleShowToast()
+          //toggleShowToast()
         }
       })
     } catch {
@@ -84,18 +85,18 @@ export default function AddProduct() {
     if (typeList.length === 0) getTypes();
   }, [typeList.length, handleChange])
   return (
-    <>
+    <Container className='mt-3'>
         {error && <Alert variant='danger'>{error}</Alert>}
         <div className='d-flex'>
           <h2 style={{minWidth:'900px'}}>Product Add</h2>
           <div className='justify-content-end'>
-            <Button disabled={loading} variant='success' form='add-product' type='submit'>Save</Button>
+            <Button disabled={loading} variant='success' form='product_form' type='submit'>Save</Button>
             <Button className='ms-3' onClick={handleNavigate}>Cancel</Button>
           </div>
         </div>
         <hr />
         <div className='d-flex'>
-          <Form id="add-product" style={{width:'350px'}} onSubmit={handleSubmit} noValidate validated={validated}>
+          <Form id="product_form" style={{width:'350px'}} onSubmit={handleSubmit} noValidate validated={validated}>
             <Form.Group>
               <ProductForm handleChange={handleChange}
               typeList={typeList}
@@ -109,9 +110,7 @@ export default function AddProduct() {
             </Suspense>
           </Form>
         </div>
-    </>
-
-
+    </Container>
   )
 }
 

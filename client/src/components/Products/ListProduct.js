@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Product from './Product'
 import { useNavigate } from 'react-router-dom'
-import { Row, Col, Button, Card, Modal, Alert } from 'react-bootstrap'
+import { Row, Col, Button, Card, Container } from 'react-bootstrap'
 
 export default function ListProduct() {
   const [products, setProducts] = useState([]);
   const [selectedList, setSelectedList] = useState([]);
-  const [show, setShow] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [error,setError] = useState('');
+  //const [show, setShow] = useState(false);
+  const btnRef = useRef();
   //const [showToast, setShowToast] = useOutletContext();
-  const handleShow = () => setShow(true);
-  const handleClose = () => setShow(false);
+  //const handleShow = () => setShow(true);
+  //const handleClose = () => setShow(false);
   //const toggleShowToast = () => setShowToast(!showToast)
   const navigate = useNavigate();
   const navigateAddProduct = () => {
@@ -32,8 +31,6 @@ export default function ListProduct() {
     }
   }
   const handleDelete = () => {
-    setError('')
-    setLoading(true);
     try {
       fetch('https://juniortest-henrique-silva.000webhostapp.com/api/product', {
         method:'POST',
@@ -42,27 +39,26 @@ export default function ListProduct() {
       }).then(res => res.json())
       .then(q => {
         if(q.data !== 'success'){
-          setError(q.data);
         }
         window.location.reload(true)
       })
     } catch {
-      setError('Error communicating with api')
     }
-    setLoading(false);
   }
   useEffect(()=>{
     if (products.length === 0) getProducts();
     document.title = "Product List"
   },[products.length])
+  //console.dir(btnRef.current)
   return (
-    <>
-    {error && <Alert variant='danger'>{error}</Alert>}
+    <Container className='mt-3'>
+          <button onClick={navigateAddProduct}>ADD</button>
+          <button id='delete-product-btn' onClick={handleDelete}>MASS DELETE</button>
       <div className='d-flex'>
       <h2 style={{minWidth:'900px'}}>Product List</h2>
         <div className='justify-content-end'>
-          <Button onClick={navigateAddProduct}>Add</Button>
-          <Button id='delete-product-btn' className='ms-3' variant='danger' onClick={handleShow} disabled={loading}>Mass Delete</Button>
+          {/* <Button onClick={navigateAddProduct}>ADD</Button> */}
+          {/* <Button id='delete-product-btn' ref={btnRef} className='ms-3' variant='danger' onClick={handleDelete} disabled={loading}>MASS DELETE</Button> */}
         </div>
       </div>
       <hr />
@@ -76,7 +72,7 @@ export default function ListProduct() {
           )) : "No Products"}
         </Row>
 
-      <Modal show={show} onHide={handleClose}>
+      {/*<Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Confirmation</Modal.Title>  
         </Modal.Header>
@@ -89,7 +85,7 @@ export default function ListProduct() {
             Delete
           </Button>
         </Modal.Footer>
-      </Modal>
-    </>
+      </Modal>*/}
+    </Container>
   )
 }
