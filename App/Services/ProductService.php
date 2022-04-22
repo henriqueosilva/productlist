@@ -1,9 +1,18 @@
 <?php
+
+/**
+ * This file contains the CRUD call in functions for the Product Service
+ */
+
   namespace App\Services;
 
   use App\Models\ProductModel;
   use App\Classes\Product;
 
+  /**
+   * This class implements the logic for retrieving, inserting and deleting the products
+   */
+  
   class ProductService
   {
       public function get($sku = null)
@@ -30,32 +39,16 @@
               $product = new Product($data);
               $product->setAttributes($data);
               
-              echo(var_dump($product->save()));
-              echo($product->res);
+              $product->save();
+              $product->res;
               /* return $res;
               exit; */
           }
           if ($data['method'] === 'delete') {
               array_shift($data);
               foreach ($data['products'] as $key => $value) {
-                  if ($value['weight'] != null) {
-                      $classname = 'App\Classes\BookClass';
-                      $product = new $classname($value['sku'], $value['name'], $value['value']);
-                      $product->setWeight($value['weight']);
-                  }
-                  if ($value['size'] != null) {
-                      $classname = 'App\Classes\DVDClass';
-                      $product = new $classname($value['sku'], $value['name'], $value['value']);
-                      $product->setSize($value['size']);
-                  }
-                  if ($value['height'] != null) {
-                      $classname = 'App\Classes\FurnitureClass';
-                      $product = new $classname($value['sku'], $value['name'], $value['value']);
-                      $product->setHeight($value['height']);
-                      $product->setWidth($value['width']);
-                      $product->setLength($value['length']);
-                  }
-                  ProductModel::delete($product);
+                  $product = new Product($value);
+                  $product->delete();
               }
               return "products deleted";
           }

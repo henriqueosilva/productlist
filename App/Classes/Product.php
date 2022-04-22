@@ -1,8 +1,8 @@
 <?php
 
 /**
- * General product class containing product variables, setters and getters
- * Extends from general product class
+ * Construct product class containing product variables and interface for accessing
+ * type specific methods
  */
 
 namespace App\Classes;
@@ -19,7 +19,7 @@ class Product
             throw new \Exception('Incorrect product type');
         }
 
-        $this->product = new $classname($data['sku'], $data['name'], $data['value']);
+        $this->product = new $classname($data['sku'], $data['name'], $data['value'], $data['type']);
     }
     public function getAttributes()
     {
@@ -32,5 +32,9 @@ class Product
     public function save()
     {
         $this->product->save();
+    }
+    public function delete()
+    {
+        $this->product->delete();
     }
 }

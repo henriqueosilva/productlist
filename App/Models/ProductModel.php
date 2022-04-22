@@ -1,10 +1,17 @@
 <?php
+
+/**
+ * This file contains the database access for retrieving and deleting the products
+ */
+
   namespace App\Models;
 
   use App\Config\Database;
-  //require 'C:\Users\henrique.silva\Documents\Programming\PHPLIST\App\Config\Database.php';
   
-  
+  /**
+   * This class implements the logic for retrieving the types of products 
+   */
+
   class ProductModel
   {
     private static $table = 'products';
@@ -45,7 +52,7 @@
       $db = $database->connect();
       $current_time = date('Y-m-d H:i:s');
 
-      $sql = 'INSERT INTO '.self::$table .'(sku, name, value, weight, height, width, length, size, created_at, updated_at) VALUES (:sku, :name, :value, :weight, :height, :width, :length, :size, :created_at, :updated_at)';
+      $sql = 'INSERT INTO '.self::$table .'(sku, name, value, weight, height, width, length, size, type, created_at, updated_at) VALUES (:sku, :name, :value, :weight, :height, :width, :length, :size, :type, :created_at, :updated_at)';
       $stmt = $db->prepare($sql);
       $stmt->bindValue(':sku', $product['sku']);
       $stmt->bindValue(':name', $product['name']);
@@ -55,6 +62,7 @@
       $stmt->bindValue(':width', $product['width']);
       $stmt->bindValue(':length', $product['length']);
       $stmt->bindValue(':size', $product['size']);
+      $stmt->bindValue(':type', $product['type']);
       $stmt->bindValue(':created_at', $current_time);
       $stmt->bindValue(':updated_at', $current_time);
     

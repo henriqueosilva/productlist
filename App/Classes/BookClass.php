@@ -1,7 +1,7 @@
 <?php
 
 /**
- * DVD class containing dvd specific variables, setters and getters
+ * Book class containing book specific variables, setters and getters
  * Extends from general product class
  */
 
@@ -37,7 +37,8 @@ class BookClass extends ProductClass
         "size"=>null,
         "height"=>null,
         "width"=>null,
-        "length"=>null);
+        "length"=>null,
+        "type"=>$this->type);
         return $attributes;
     }
     public function save()

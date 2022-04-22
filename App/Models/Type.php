@@ -1,12 +1,23 @@
 <?php
+
+/**
+ * This file contains the database access for retrieving the types of products
+ */
+
   namespace App\Models;
 
   use App\Config\Database;
 
-  class Type {
+  /**
+   * This class implements the logic for retrieving the types of products 
+   */
+
+  class Type 
+  {
     private static $table = 'product_type';
 
-    public static function selectAll() {
+    public static function selectAll() 
+    {
       $database = new Database;
       $db = $database->connect();
 

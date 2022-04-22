@@ -62,7 +62,8 @@ class FurnitureClass extends ProductClass
         "size"=>null,
         "height"=>$this->getHeight(),
         "width"=>$this->getWidth(),
-        "length"=>$this->getLength());
+        "length"=>$this->getLength(),
+        "type"=>$this->type);
         return $attributes;
     }
     public function save()

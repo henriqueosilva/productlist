@@ -37,7 +37,8 @@ class DVDClass extends ProductClass
         "size"=>$this->getSize(),
         "height"=>null,
         "width"=>null,
-        "length"=>null);
+        "length"=>null,
+        "type"=>$this->type);
         return $attributes;
     }
     public function save()
