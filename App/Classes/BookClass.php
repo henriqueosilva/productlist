@@ -1,18 +1,53 @@
 <?php
-  namespace App\Classes;
 
-  use App\Classes\ProductClass;
+/**
+ * DVD class containing dvd specific variables, setters and getters
+ * Extends from general product class
+ */
 
-  class BookClass extends ProductClass {
+namespace App\Classes;
+
+use App\Classes\ProductClass;
+use App\Models\ProductModel;
+
+class BookClass extends ProductClass
+{
     private float $weight;
 
-    public function getWeight() {
-      return $this->weight;
+    private function getWeight()
+    {
+        return $this->weight;
     }
-    public function setWeight(float $weight) {
-      $this->weight = $weight;
+    private function setWeight(float $weight)
+    {
+        $this->weight = $weight;
 
-      return $this->weight;
+        return $this->weight;
     }
-  }
-?>
+    public function setAttributes(array $data)
+    {
+        $this->setWeight($data['weight']);
+    }
+    public function getAttributes()
+    {
+        $attributes = array("sku"=>$this->sku,
+        "name"=>$this->name,
+        "value"=>$this->value,
+        "weight"=>$this->getWeight(),
+        "size"=>null,
+        "height"=>null,
+        "width"=>null,
+        "length"=>null);
+        return $attributes;
+    }
+    public function save()
+    {
+        $res = ProductModel::insert($this->getAttributes());
+        echo(var_dump($res));
+        //return 
+    }
+    public function delete()
+    {
+        return ProductModel::delete($this->sku);
+    }
+}
