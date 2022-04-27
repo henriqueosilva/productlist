@@ -12,6 +12,7 @@ function Landing() {
     navigate(path)
   }
   const handleDelete = () => {
+    console.log("Products to be deleted ", selectedList)
     try {
       fetch(`${process.env.REACT_APP_API_URI}/api/product`, {
         method:'POST',
@@ -20,6 +21,7 @@ function Landing() {
       .then(q => {
         if(q.data !== 'success'){
         }
+        setSelectedList(selectedList.filter(selected => !selectedList.includes(selected)))
         setProducts(products.filter(product => !selectedList.includes(product)))
       })
     } catch {
