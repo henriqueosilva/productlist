@@ -26,7 +26,10 @@ class BookClass extends ProductClass
     }
     public function setAttributes(array $data)
     {
-        $this->setWeight($data['weight']);
+        if(!empty($data['weight'])){
+            return $this->setWeight($data['weight']);
+        }
+        throw new \Exception("Weight value can't be empty");
     }
     public function getAttributes()
     {

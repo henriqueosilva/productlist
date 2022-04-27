@@ -26,7 +26,10 @@ class DVDClass extends ProductClass
     }
     public function setAttributes(array $data)
     {
-        $this->setSize($data['size']);
+        if(!empty($data['size'])){
+            return $this->setSize($data['size']);
+        }
+        throw new \Exception("Size can't be empty");
     }
     public function getAttributes()
     {

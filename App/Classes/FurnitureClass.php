@@ -48,9 +48,13 @@ class FurnitureClass extends ProductClass
     }
     public function setAttributes(array $data)
     {
-        $this->setHeight($data['height']);
-        $this->setWidth($data['width']);
-        $this->setLength($data['length']);
+        if(!empty($data['height'])&&!empty($data['width'])&&!empty($data['length'])){
+            $this->setHeight($data['height']);
+            $this->setWidth($data['width']);
+            $this->setLength($data['length']);
+            return;
+        }
+        throw new \Exception("Dimensions can't be empty");
     }
     public function getAttributes()
     {
