@@ -43,7 +43,6 @@ function Add() {
       
     }
     const handleSubmit = (e) => {
-      console.log('submited')
       const form = e.currentTarget;
       if(form.checkValidity() === false){
         e.preventDefault();
