@@ -13,14 +13,13 @@ function Landing() {
   }
   const handleDelete = () => {
     try {
-      fetch('https://juniortest-henrique-silva.000webhostapp.com/api/product', {
+      fetch(`${process.env.REACT_APP_API_URI_TEST}/api/product`, {
         method:'POST',
         body: JSON.stringify({method:'delete', products:selectedList})
       }).then(res => res.json())
       .then(q => {
         if(q.data !== 'success'){
         }
-        console.log(selectedList)
         setProducts(products.filter(product => !selectedList.includes(product)))
       })
     } catch {

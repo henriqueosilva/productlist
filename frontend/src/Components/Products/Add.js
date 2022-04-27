@@ -24,7 +24,7 @@ function Add() {
     const FurnitureForm = React.lazy(() => import('./Forms/FurnitureForm'));
   
     const content = async () => {
-      const rawResponse = await fetch('https://juniortest-henrique-silva.000webhostapp.com/api/product',{
+      const rawResponse = await fetch(`${process.env.REACT_APP_API_URI_TEST}/api/product`,{
       method:'POST',
       body: JSON.stringify({
         method:'register',
@@ -75,7 +75,7 @@ function Add() {
         navigate("/")
       }
       const getTypes = () => {
-        fetch('https://juniortest-henrique-silva.000webhostapp.com/api/type')
+        fetch(`${process.env.REACT_APP_API_URI_TEST}/api/type`)
         .then(res => res.json())
         .then(q => setTypeList(q.data))
       }
