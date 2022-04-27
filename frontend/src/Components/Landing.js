@@ -12,7 +12,6 @@ function Landing() {
     navigate(path)
   }
   const handleDelete = () => {
-    console.log("Products to be deleted ", selectedList)
     try {
       fetch(`${process.env.REACT_APP_API_URI}/api/product`, {
         method:'POST',

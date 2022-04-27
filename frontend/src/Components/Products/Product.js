@@ -7,7 +7,6 @@ function Product(props) {
 
     const handleChange = () => {
         setSelected(!selected);
-        console.log(props)
         props.handleSelection(props.product, !selected)
       }
       const handleRender = () => {
