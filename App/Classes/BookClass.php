@@ -43,9 +43,12 @@ class BookClass extends ProductClass
     }
     public function save()
     {
-        $res = ProductModel::insert($this->getAttributes());
-        echo(var_dump($res));
-        //return 
+        $this->res = ProductModel::insert($this->getAttributes());
+        return $this->res;
+    }
+    public function getRes()
+    {
+        return $this->res;
     }
     public function delete()
     {

@@ -13,6 +13,7 @@ abstract class ProductClass
     protected string $name;
     protected string $value;
     protected string $type;
+    protected string $res;
 
     public function __construct(string $sku, string $name, float $value, string $type)
     {
@@ -22,6 +23,7 @@ abstract class ProductClass
       $this->type = $type;
     }
     public abstract function getAttributes();
+    public abstract function getRes();
     public abstract function setAttributes(array $data);
     public abstract function save();
     public abstract function delete();

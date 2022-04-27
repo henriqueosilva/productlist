@@ -33,6 +33,10 @@ class Product
     {
         $this->product->save();
     }
+    public function getRes()
+    {
+        return $this->product->getRes();
+    }
     public function delete()
     {
         $this->product->delete();

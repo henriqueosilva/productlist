@@ -15,7 +15,6 @@ class FurnitureClass extends ProductClass
     private float $height;
     private float $width;
     private float $length;
-    public string $res;
 
     public function getHeight()
     {
@@ -71,6 +70,10 @@ class FurnitureClass extends ProductClass
         $this->res = ProductModel::insert($this->getAttributes());
         return $this->res;
         
+    }
+    public function getRes()
+    {
+        return $this->res;
     }
     public function delete()
     {

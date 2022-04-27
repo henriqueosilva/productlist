@@ -43,7 +43,12 @@ class DVDClass extends ProductClass
     }
     public function save()
     {
-        return ProductModel::insert($this->getAttributes());
+        $this->res = ProductModel::insert($this->getAttributes());
+        return $this->res;
+    }
+    public function getRes()
+    {
+        return $this->res;
     }
     public function delete()
     {

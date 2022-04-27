@@ -27,7 +27,6 @@
       public function post()
       {
           $data = json_decode(file_get_contents('php://input'), true);
-          //echo(var_dump($data));
           if (!key_exists("method", $data)) {
               throw new \Exception("Method not in request");
           }
@@ -40,9 +39,8 @@
               $product->setAttributes($data);
               
               $product->save();
-              $product->res;
-              /* return $res;
-              exit; */
+              return $product->getRes();
+              exit;
           }
           if ($data['method'] === 'delete') {
               array_shift($data);
