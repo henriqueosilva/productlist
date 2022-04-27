@@ -4,7 +4,7 @@ import Product from './Product';
 
 function List(props) {
   const getProducts = () => {
-        fetch(`${process.env.REACT_APP_API_URI_TEST}/api/product`)
+        fetch(`${process.env.REACT_APP_API_URI}/api/product`)
         .then(res => res.json())
         .then(q => props.setProducts(q.data))
   }

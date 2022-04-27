@@ -24,7 +24,7 @@ function Add() {
     const FurnitureForm = React.lazy(() => import('./Forms/FurnitureForm'));
   
     const content = async () => {
-      const rawResponse = await fetch(`${process.env.REACT_APP_API_URI_TEST}/api/product`,{
+      const rawResponse = await fetch(`${process.env.REACT_APP_API_URI}/api/product`,{
       method:'POST',
       body: JSON.stringify({
         method:'register',
@@ -74,7 +74,7 @@ function Add() {
         navigate("/")
       }
       const getTypes = () => {
-        fetch(`${process.env.REACT_APP_API_URI_TEST}/api/type`)
+        fetch(`${process.env.REACT_APP_API_URI}/api/type`)
         .then(res => res.json())
         .then(q => setTypeList(q.data))
       }
