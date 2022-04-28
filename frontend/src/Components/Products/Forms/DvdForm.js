@@ -8,8 +8,7 @@ const DvdForm = React.forwardRef((props, ref) => {
   }
   const filterLength = (e, maxLength=12) => {
     if(e.target.value.length >= maxLength ){
-      e.target.value = e.target.value.substr(0, maxLength)
-      console.log(e.target.value.length)
+      e.target.value = e.target.value.substr(0, maxLength)      
     }
   }
   useEffect(()=>{
