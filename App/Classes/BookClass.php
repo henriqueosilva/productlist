@@ -14,7 +14,7 @@ class BookClass extends ProductClass
 {
     private float $weight;
 
-    private function getWeight()
+    public function getWeight()
     {
         return $this->weight;
     }
@@ -31,30 +31,13 @@ class BookClass extends ProductClass
         }
         throw new \Exception("Weight value can't be empty");
     }
-    public function getAttributes()
-    {
-        $attributes = array("sku"=>$this->sku,
-        "name"=>$this->name,
-        "value"=>$this->value,
-        "weight"=>$this->getWeight(),
-        "size"=>null,
-        "height"=>null,
-        "width"=>null,
-        "length"=>null,
-        "type"=>$this->type);
-        return $attributes;
-    }
     public function save()
     {
-        $this->res = ProductModel::insert($this->getAttributes());
-        return $this->res;
-    }
-    public function getRes()
-    {
+        $this->res = ProductModel::insert($this);
         return $this->res;
     }
     public function delete()
     {
-        return ProductModel::delete($this->sku);
+        return ProductModel::delete($this);
     }
 }

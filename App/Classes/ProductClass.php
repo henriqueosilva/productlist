@@ -7,12 +7,12 @@
 
 namespace App\Classes;
 
-abstract class ProductClass
+class ProductClass
 {
-    protected string $sku;
-    protected string $name;
-    protected string $value;
-    protected string $type;
+    private string $sku;
+    private string $name;
+    private string $value;
+    private string $type;
     protected string $res;
 
     public function __construct(string $sku, string $name, float $value, string $type)
@@ -22,9 +22,47 @@ abstract class ProductClass
       $this->value = $value;
       $this->type = $type;
     }
-    public abstract function getAttributes();
-    public abstract function getRes();
-    public abstract function setAttributes(array $data);
-    public abstract function save();
-    public abstract function delete();
+    public function getSku()
+    {
+      return $this->sku;
+    }
+    public function getName()
+    {
+      return $this->name;
+    }
+    public function getValue()
+    {
+      return $this->value;
+    }
+    public function getType()
+    {
+      return $this->type;
+    }
+    public function getWeight()
+    {
+      return null;
+    }
+    public function getSize()
+    {
+      return null;
+    }
+    public function getHeight()
+    {
+      return null;
+    }
+    public function getLength()
+    {
+      return null;
+    }
+    public function getWidth()
+    {
+      return null;
+    }
+    public function getRes()
+    {
+      return $this->res;
+    }
+    public function setAttributes(array $data){}
+    public function save(){}
+    public function delete(){}
 }

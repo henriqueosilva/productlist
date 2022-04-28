@@ -31,31 +31,14 @@ class DVDClass extends ProductClass
         }
         throw new \Exception("Size can't be empty");
     }
-    public function getAttributes()
-    {
-        $attributes = array("sku"=>$this->sku,
-        "name"=>$this->name,
-        "value"=>$this->value,
-        "weight"=>null,
-        "size"=>$this->getSize(),
-        "height"=>null,
-        "width"=>null,
-        "length"=>null,
-        "type"=>$this->type);
-        return $attributes;
-    }
     public function save()
     {
-        $this->res = ProductModel::insert($this->getAttributes());
-        return $this->res;
-    }
-    public function getRes()
-    {
+        $this->res = ProductModel::insert($this);
         return $this->res;
     }
     public function delete()
     {
-        return ProductModel::delete($this->sku);
+        return ProductModel::delete($this);
 
     }
 }

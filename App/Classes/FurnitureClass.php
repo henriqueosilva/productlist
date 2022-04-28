@@ -56,32 +56,15 @@ class FurnitureClass extends ProductClass
         }
         throw new \Exception("Dimensions can't be empty");
     }
-    public function getAttributes()
-    {
-        $attributes = array("sku"=>$this->sku,
-        "name"=>$this->name,
-        "value"=>$this->value,
-        "weight"=>null,
-        "size"=>null,
-        "height"=>$this->getHeight(),
-        "width"=>$this->getWidth(),
-        "length"=>$this->getLength(),
-        "type"=>$this->type);
-        return $attributes;
-    }
     public function save()
     {
-        $this->res = ProductModel::insert($this->getAttributes());
+        $this->res = ProductModel::insert($this);
         return $this->res;
         
     }
-    public function getRes()
-    {
-        return $this->res;
-    }
     public function delete()
     {
-        return ProductModel::delete($this->sku);
+        return ProductModel::delete($this);
 
     }
 }

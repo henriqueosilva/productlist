@@ -21,10 +21,6 @@ class Product
 
         $this->product = new $classname($data['sku'], $data['name'], $data['value'], $data['type']);
     }
-    public function getAttributes()
-    {
-        return $this->product->getAttributes();
-    }
     public function setAttributes(array $data)
     {
         $this->product->setAttributes($data);
