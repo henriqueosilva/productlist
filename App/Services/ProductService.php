@@ -44,6 +44,9 @@
           }
           if ($data['method'] === 'delete') {
               array_shift($data);
+              if(sizeof($data['products'])==0){
+                 throw new \Exception("No products selected");
+              }
               foreach ($data['products'] as $key => $value) {
                   $product = new Product($value);
                   $product->delete();
