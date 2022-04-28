@@ -3,12 +3,10 @@ import { Card, Form } from 'react-bootstrap'
 
 function Product(props) {
     const [selected, setSelected] = useState(false);
-    const checkboxRef = useRef('');
     const [elements, setElements] = useState([])
 
     const handleChange = () => {
-        console.log('Checkbox clicked')
-        //setSelected(!selected);
+        setSelected(!selected);
         props.handleSelection(props.product, !selected)
       }
       const handleRender = () => {
@@ -20,14 +18,10 @@ function Product(props) {
       }
       useEffect(() => {
         if(elements.length === 0) handleRender();
-        if(checkboxRef.current?.checked === true){
-          handleChange()
-        }
-      },[elements.length, checkboxRef.current?.checked])
-      console.log(checkboxRef.current?.checked)
+      },[elements.length])
   return (
     <Card.Body style={{minWidth:'310px'}}>
-        <Form.Check.Input ref={checkboxRef} className='delete-checkbox' type={'checkbox'} checked={selected} onChange={handleChange} />
+        <Form.Check.Input className='delete-checkbox' type={'checkbox'} checked={selected} onChange={handleChange} />
         <div className='text-center'>
           <Card.Title>{props.product.sku}</Card.Title>
           <Card.Text>{props.product.name}</Card.Text>
