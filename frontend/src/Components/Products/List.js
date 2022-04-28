@@ -13,7 +13,7 @@ function List(props) {
       props.setSelectedList([...props.selectedList,data])
     }
     if (selected === false){
-      props.setSelectedList(props.selectedList.filter(product => product.id !== data.id))
+      props.setSelectedList(currList => currList.filter(product => product.sku !== data.sku))
     }
   }
   
@@ -21,7 +21,7 @@ function List(props) {
         if (props.products.length === 0) getProducts();
     },[props.products.length])
   return (
-    <Row>
+    <Row className='row-cols-3'>
         {props.products[0]?.sku ? props.products.map((product, index)=>(
             <Col className='mb-3' key={index}>
                 <Card className='h-100 d-inline-block'>

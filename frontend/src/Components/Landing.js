@@ -13,7 +13,6 @@ function Landing() {
   }
   const handleDelete = () => {
     try {
-      console.log(selectedList);
       fetch(`${process.env.REACT_APP_API_URI}/api/product`, {
         method:'POST',
         body: JSON.stringify({method:'delete', products:selectedList})
@@ -21,7 +20,7 @@ function Landing() {
       .then(q => {
         if(q.data !== 'success'){
         }
-        //setSelectedList(selectedList.filter(selected => !selectedList.includes(selected)))
+        setSelectedList(selectedList.filter(selected => !selectedList.includes(selected)))
         setProducts(products.filter(product => !selectedList.includes(product)))
       })
     } catch {
